@@ -37,15 +37,7 @@ const useStyles = makeStyles({
 
 
 function App() {
-  const classes = useStyles();
-
-  useEffect(()=>{
-    checkLogin();
-    },[])
-
-
-   
-  
+  const classes = useStyles();  
   const [email,setEmail] = useState(""); 
   const [err,setErr] = useState("");
   const [loading,setLoading] = useState(false);
@@ -54,13 +46,6 @@ function App() {
     setErr("");
   },[email])
 
-  const checkLogin = async () => {
-      await Axios.get("/exercise")
-      .then(function(res){
-        console.log(res);
-      })
-
-  }
 
   const handleChange = (e) => {
   setEmail(e.target.value);
