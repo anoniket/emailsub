@@ -73,7 +73,7 @@ function App() {
         else{
          
          setLoading(false);
-         toast.error('Something went wrong, Please try again !!', {
+         toast.error(res.data.data, {
           position: "bottom-center",
     autoClose: 3000,
     hideProgressBar: false,

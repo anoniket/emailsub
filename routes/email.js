@@ -15,13 +15,21 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req,res) => {
    
     
-    const newEmail = new Email({
-        email:req.body.email,
-    });
-
-    newEmail.save()
-        .then(() => res.json({data:'Email added!',success:true}))
-        .catch(err => res.status(400).json('Error: ' + err));
+    Email.find({email:req.body.email},function(err,user){
+        if(user.length){
+            
+            res.json({data:'User Already registered',success:false})
+        }else{
+            const newEmail = new Email({
+                email:req.body.email,
+            });
+        
+            newEmail.save()
+                .then(() => res.json({data:'Email added!',success:true}))
+                .catch(err => res.status(400).json('Error: ' + err));
+        }
+    })
+    
 });
 
 
