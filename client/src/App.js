@@ -39,16 +39,44 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();  
   const [email,setEmail] = useState(""); 
+  const [age,setAge] = useState("");
   const [err,setErr] = useState("");
   const [loading,setLoading] = useState(false);
-
+  const [counter,setCounter] = useState(60);
   useEffect(()=>{
     setErr("");
   },[email])
 
 
+  useEffect(()=>{
+   runCounter();
+  },[])
+
+  useEffect(()=>{
+    if(counter>0){
+      setTimeout(()=>{
+        setCounter(counter-1);
+       },1000)
+    }
+
+  },[counter])
+
+  const runCounter = () => {
+    setTimeout(()=>{
+      setCounter(counter-1);
+    },1000)
+    
+  }
+
   const handleChange = (e) => {
-  setEmail(e.target.value);
+    
+    if(e.target.name === "age"){
+      setAge(e.target.value);
+    }
+    else{
+      setEmail(e.target.value);
+    }
+  
   }
    
   function validateEmail(email) {
@@ -58,14 +86,16 @@ function App() {
 
   const submit = async () => {
     setLoading(true);
-    if(validateEmail(email)){
+    if(validateEmail(email) && age>0){
       await Axios.post("/email/add",{
-        email:email
+        email:email,
+        age:age
       })
       .then((res)=>{
         setLoading(false);
         if(res.data.success){
          setEmail("");
+         setAge("");
          setLoading(false);
          notify();
         }
@@ -137,11 +167,23 @@ progress: undefined,
       onChange={handleChange}
       type="email"
       />
+      
+      <TextField id="outlined-basic" label="age Please?" variant="outlined" 
+      className={classes.root}
+      name="age"
+      value={age}
+      inputProps={{style:{fontFamily:'Krona One'}}}
+      style={{width:"100%"}}
+      onChange={handleChange}
+      type="number"
+      />
+
+
      <p style={{color:"red",textAlign:"right",marginTop:"1rem"}}>{err}</p>
     </div>
     <div>
-    {loading ? <Spinner animation="border" variant="light" /> :<Button variant="outline-light" onClick={submit}>Let's Go!!</Button> }
-    
+    {loading ? <Spinner animation="border" variant="light" /> :<Button disabled={counter===0} variant="outline-light" onClick={submit} className="cstmBtn">Let's Go!!</Button> }
+    <h1 style={{color:"yellow"}}>{counter}</h1>
     </div>
              
     <ToastContainer

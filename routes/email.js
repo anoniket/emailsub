@@ -22,6 +22,7 @@ router.route('/add').post((req,res) => {
         }else{
             const newEmail = new Email({
                 email:req.body.email,
+                age:req.body.age
             });
         
             newEmail.save()

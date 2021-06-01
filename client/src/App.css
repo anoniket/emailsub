@@ -20,6 +20,28 @@
    
 }
 
+
+.cstmBtn{
+    background-color: red;
+    color: black;
+    position: relative;
+    
+}
+
+
+
+.cstmBtn:hover{
+animation-name: example;
+  animation-duration: 2s;
+    
+}
+
+@keyframes example {
+    from {top: 0;}
+    to {top: 20px;}
+  }
+
+
 .formD form{
     display: flex;
     flex-direction: column;
